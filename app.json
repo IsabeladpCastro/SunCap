@@ -11,6 +11,9 @@
     "ios": {
       "supportsTablet": true
     },
+    "assets": [
+          "./node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"
+    ],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -37,5 +40,6 @@
     "experiments": {
       "typedRoutes": true
     }
+    
   }
 }
