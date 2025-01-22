@@ -1,60 +1,61 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"; // Importação do pacote de ícones
+
 export default function App() {
   return (
     <>
       <ScrollView style={styles.container}>
 
-               {/* Header */}
-               <Text style={styles.header}>SUNCAP</Text>
+        {/* Header */}
+        <Text style={styles.header}>SUNCAP</Text>
 
-                {/* Welcome */}
-                <View style={styles.welcome}>
-                  <Text style={styles.welcomeTitle}>Boas vindas ao SunCap</Text>
-                </View>
+        {/* Welcome */}
+        <View style={styles.welcome}>
+          <Text style={styles.welcomeTitle}>Boas-vindas ao SunCap!</Text>
+        </View>
+        <View>
+          <Text style={styles.welcomeText}>
+            Tenha informações precisas sobre a radiação solar na sua localização, ajudando você a proteger sua saúde e aproveitar o sol com segurança.
+          </Text>
+        </View>
 
-                <View style={styles.welcomeText}>
-                  <Text style={styles.welcomeText}>Tenha informações precisas sobre a radiação solar na sua localização, ajudando você a proteger sua saúde e aproveitar o sol com segurança.</Text>
-                </View>
+        {/* Funcionalidades */}
+        <View>
+          <Text style={styles.welcomeText}>Veja como funciona:</Text>
+        </View>
 
-                <View style={styles.welcomeText}>
-                  <Text style={styles.welcomeText}>Veja como funciona:</Text>
-                </View>
+        {/* Funcionalidade 1 */}
+        <View style={styles.funcionalidadeContainer}>
+          <Icon name="sunny-outline" size={24} color="#0A6ACB" style={styles.icon} />
+          <View style={styles.flex_linha}>
+            <Text style={styles.funcionalidadeTitle}>Verifique a radiação solar</Text>
+            <Text style={styles.funcionalidadeText}>Acompanhe o índice UV em tempo real na sua região.</Text>
+          </View>
+        </View>
 
-                        {/*Funcionalidades */}
-                        <View style={styles.funcionalidadeTitle}>
-                  <Text style={styles.funcionalidadeTitle}>Verifique a radiação solar</Text>
-                </View>
-                <View style={styles.funcionalidadeText}>
-                  <Text style={styles.funcionalidadeText}>Acompanhe o índice UV em tempo real na sua região.</Text>
-                </View>
+        {/* Funcionalidade 2 */}
+        <View style={styles.funcionalidadeContainer}>
+          <Icon name="notifications-outline" size={24} color="#0A6ACB" style={styles.icon} />
+          <View style={styles.flex_linha}>
+            <Text style={styles.funcionalidadeTitle}>Receba alertas personalizados</Text>
+            <Text style={styles.funcionalidadeText}>Saiba o melhor momento para se proteger ou aproveitar o sol.</Text>
+          </View>
+        </View>
 
-                <View style={styles.funcionalidadeTitle}>
-                  <Text style={styles.funcionalidadeTitle}>Receba alertas personalizados</Text>
-                </View>
-                <View style={styles.funcionalidadeText}>
-                  <Text style={styles.funcionalidadeText}>Saiba o melhor momento para se proteger ou aproveitar o sol.</Text>
-                </View>
+        {/* Funcionalidade 3 */}
+        <View style={styles.funcionalidadeContainer}>
+          <Icon name="document-text-outline" size={24} color="#0A6ACB" style={styles.icon} />
+          <View style={styles.flex_linha}>
+            <Text style={styles.funcionalidadeTitle}>Dicas e relatórios</Text>
+            <Text style={styles.funcionalidadeText}>Receba orientações para cuidados com a pele e análises detalhadas do histórico de exposição solar</Text>
+          </View>
+        </View>
 
-                <View style={styles.funcionalidadeTitle}>
-                  <Text style={styles.funcionalidadeTitle}>Dicas e relatórios</Text>
-                </View>
-                <View style={styles.funcionalidadeText}>
-                  <Text style={styles.funcionalidadeText}>Receba orientações para cuidados com a pele e análises detalhadas do histórico de exposição solar</Text>
-                </View>
-
-                        
         {/* Button */}
-              <TouchableOpacity style={styles.connectButton}>
-                <Text style={styles.connectButtonText}>Começar</Text>
-              </TouchableOpacity>
+        <TouchableOpacity style={styles.connectButton}>
+          <Text style={styles.connectButtonText}>Começar</Text>
+        </TouchableOpacity>
 
       </ScrollView>
     </>
@@ -64,8 +65,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: Dimensions.get('window').width,
   },
   header: {
     fontSize: 24,
@@ -80,6 +83,24 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginBottom: 12,
   },
+  welcomeText: {
+    fontSize: 16,
+    color: "#45525F",
+    marginBottom: 12,
+  },
+  funcionalidadeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    paddingLeft: 0,
+    paddingRight: 40,
+  },
+  flex_linha:{
+    flex: 1,
+  },
+  icon: {
+    marginRight: 12,
+  },
   funcionalidadeTitle: {
     fontSize: 16,
     fontWeight: "bold",
@@ -87,27 +108,21 @@ const styles = StyleSheet.create({
   },
   funcionalidadeText: {
     fontSize: 14,
-    fontWeight: "semibold",
     color: "#45525F",
-    marginBottom: 12,
-  },
-  welcomeText: {
-    fontSize: 16,
-    fontWeight: "regular",
-    color: "#45525F",
-    marginBottom: 12,
   },
   connectButton: {
-    backgroundColor: '#00063D',
+    backgroundColor: "#00063D",
     paddingVertical: 15,
     borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 30,
+    alignItems: "center",
+    position: "absolute",
+    bottom: -350,
+    left: 0,
+    right: 0,
   },
   connectButtonText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
-  
 });
