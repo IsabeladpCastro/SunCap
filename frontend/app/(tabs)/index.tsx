@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons"; // Importação do pacote de ícones
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default function App() {
   return (
@@ -32,7 +32,6 @@ export default function App() {
           ))}
         </View>
 
-        {/* UV Index Section */}
         <View style={styles.dashboard}>
           <Text style={styles.dashboardTitle}>Dashboard de Incidência UV</Text>
           <View style={styles.uvInfo}>
@@ -56,7 +55,6 @@ export default function App() {
           </View>
         </View>
 
-        {/* Weekly Data */}
         <View style={styles.weeklyData}>
           <Text style={styles.weeklyTitle}>Últimos 7 dias: 47h</Text>
           <View style={styles.chart}>

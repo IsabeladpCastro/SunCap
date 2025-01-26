@@ -1,16 +1,39 @@
-import React from "react";
+import dbService from "@/services/dbService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons"; // Importação do pacote de ícones
+import Icon from "react-native-vector-icons/Ionicons"; 
 
-export default function App() {
+export default function Splash() {
+
+  const [userId, setUserId] = useState<number>(0);
+  const navigator = useNavigation();
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const id = await AsyncStorage.getItem('@userId');
+      setUserId(id ? parseInt(id, 10) : 0);
+    };
+    fetchUserId();
+  }, []);
+
+  const handleIndex = async () => {
+    if (userId !== 0) {
+      await dbService.atualizarPrimeiroLogin(userId);
+      navigator.navigate('Index' as never);
+    } else {
+      console.log('ID do usuário não encontrado');
+    }
+  };
+
+
   return (
     <>
       <ScrollView style={styles.container}>
 
-        {/* Header */}
         <Text style={styles.header}>SUNCAP</Text>
 
-        {/* Welcome */}
         <View style={styles.welcomeText}>
           <Text style={styles.welcomeTitle}>Boas-vindas ao SunCap!</Text>
         </View>
@@ -20,12 +43,10 @@ export default function App() {
           </Text>
         </View>
 
-        {/* Funcionalidades */}
         <View>
           <Text style={styles.welcomeText}>Veja como funciona:</Text>
         </View>
 
-        {/* Funcionalidade 1 */}
         <View style={styles.funcionalidadeContainer}>
           <Icon name="sunny-outline" size={24} color="#0A6ACB" style={styles.icon} />
           <View style={styles.flex_linha}>
@@ -34,7 +55,6 @@ export default function App() {
           </View>
         </View>
 
-        {/* Funcionalidade 2 */}
         <View style={styles.funcionalidadeContainer}>
           <Icon name="notifications-outline" size={24} color="#0A6ACB" style={styles.icon} />
           <View style={styles.flex_linha}>
@@ -43,7 +63,6 @@ export default function App() {
           </View>
         </View>
 
-        {/* Funcionalidade 3 */}
         <View style={styles.funcionalidadeContainer}>
           <Icon name="document-text-outline" size={24} color="#0A6ACB" style={styles.icon} />
           <View style={styles.flex_linha}>
@@ -52,9 +71,8 @@ export default function App() {
           </View>
         </View>
 
-        {/* Button */}
         <TouchableOpacity style={styles.connectButton}>
-          <Text style={styles.connectButtonText}>Começar</Text>
+          <Text style={styles.connectButtonText} onPress={() => navigator.navigate("Index" as never)}>Começar</Text>
         </TouchableOpacity>
 
       </ScrollView>
