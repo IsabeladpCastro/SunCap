@@ -1,61 +1,81 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-} from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
+import dbService from "../../services/dbService"; 
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: screenWidth } = Dimensions.get("window");
 
-export default function Login() {
+export default function SignIn() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
+  const navigator = useNavigation();
+
+  const handleLogin = async () => {
+    try {
+      const usuario = await dbService.loginUsuario(email, senha);
+      if (usuario) {
+        console.log('Usuário logado:', usuario);
+        await AsyncStorage.setItem('@userId', usuario.id.toString());
+        if(usuario.id === 0){
+          navigator.navigate('Index' as never);
+        }else{
+          navigator.navigate('Splash' as never);
+        }
+      } else {
+        setError('Email ou senha incorretos.');
+      }
+    } catch (error) {
+      setError('Ocorreu um erro ao tentar fazer login.');
+      console.error('Erro no login:', error);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerImage}>
-        <Image
-          source={require('../../assets/images/not-found.png')} // Substitua pelo caminho correto da imagem
-          style={styles.image}
-        />
+        <Image source={require('../../assets/images/not-found.png')} style={styles.image} />
       </View>
 
       <Text style={styles.title}>Faça seu Login!</Text>
 
-      <TextInput style={styles.input} placeholder="Nome" placeholderTextColor="#ddd" />
-      <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" placeholderTextColor="#ddd"   />
-
+      <TextInput 
+        style={styles.input} 
+        placeholder="Email" 
+        keyboardType="email-address" 
+        placeholderTextColor="#ddd" 
+        value={email}
+        onChangeText={setEmail} 
+      />
+      
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.inputField}
           placeholder="Senha"
           placeholderTextColor="#ddd"
           secureTextEntry={!showPassword}
+          value={senha}
+          onChangeText={setSenha}
         />
-        <TouchableOpacity
-          onPress={() => setShowPassword(!showPassword)}
-          style={styles.iconContainer}
-        >
-          <Image
-            source={require('../../assets/images/hide-password.png')}
-            style={styles.icon}
-          />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.iconContainer}>
+          <Image source={require('../../assets/images/hide-password.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>
 
       <Text style={styles.link}>Esqueceu sua senha?</Text>
 
-      <TouchableOpacity style={styles.button}>
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Acessar</Text>
       </TouchableOpacity>
 
       <View style={styles.notRegisteredContainer}>
         <Text style={styles.notRegisteredText}>Não tem uma conta? </Text>
         <TouchableOpacity>
-          <Text style={styles.registerLink}>Cadastrar agora</Text>
+          <Text style={styles.registerLink} onPress={() => navigator.navigate("SignUp" as never)}>Cadastrar agora</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -63,11 +83,15 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: "#f8f9ff",
     paddingHorizontal: 34,
-    paddingVertical: 36,
     justifyContent: "center",
   },
   headerImage: {
@@ -76,7 +100,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: screenWidth,
-    height: Dimensions.get('screen').height * 0.3,
+    height: Dimensions.get('screen').height * 0.35,
     resizeMode: "cover",
     backgroundColor: "#e5e7eb",
   },

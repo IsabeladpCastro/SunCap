@@ -8,15 +8,55 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-
 import CheckBox from "expo-checkbox";
+import dbService from "../../services/dbService";
+import { useNavigation } from "@react-navigation/native";
 
 const { width: screenWidth } = Dimensions.get("window");
 
-export default function Register() {
+export default function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageColor, setMessageColor] = useState(""); 
+
+  const navigator = useNavigation();
+
+  const handleSubmit = async () => {
+    if (!isChecked) {
+      setMessage("Você deve aceitar os Termos de uso e Políticas de Privacidade.");
+      setMessageColor("red");
+      return;
+    }
+
+    if (!name || !email || !password) {
+      setMessage("Todos os campos devem ser preenchidos.");
+      setMessageColor("red");
+      return;
+    }
+
+    try {
+      const usuarioCriado = await dbService.createUsuario(name, email, password);
+
+      console.log(usuarioCriado);
+
+      navigator.navigate("Splash" as never); 
+
+      setMessage(`Usuário ${name} cadastrado com sucesso!`);
+      setMessageColor("green");
+      setName("");
+      setEmail("");
+      setPassword("");
+      setIsChecked(false);
+    } catch (error) {
+      setMessage("Não foi possível realizar o cadastro. Tente novamente.");
+      setMessageColor("red");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -29,8 +69,21 @@ export default function Register() {
 
       <Text style={styles.title}>Faça seu cadastro!</Text>
 
-      <TextInput style={styles.input} placeholder="Nome" placeholderTextColor="#ddd"/>
-      <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" placeholderTextColor="#ddd"/>
+      <TextInput
+        style={styles.input}
+        placeholder="Nome"
+        placeholderTextColor="#ddd"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        keyboardType="email-address"
+        placeholderTextColor="#ddd"
+        value={email}
+        onChangeText={setEmail}
+      />
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -38,6 +91,8 @@ export default function Register() {
           placeholder="Senha"
           placeholderTextColor="#ddd"
           secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
         />
         <TouchableOpacity
           onPress={() => setShowPassword(!showPassword)}
@@ -62,7 +117,7 @@ export default function Register() {
           style={styles.iconContainer}
         >
           <Image
-            source={require('/home/guitosi/Documents/SunCap/assets/images/hide-password.png')}
+            source={require('../../assets/images/hide-password.png')}
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -80,10 +135,24 @@ export default function Register() {
           <Text style={styles.link}>Termos de uso</Text> e{" "}
           <Text style={styles.link}>Políticas de Privacidade</Text>.
         </Text>
-      </View> 
-      <TouchableOpacity style={styles.button}>
+      </View>
+
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
+
+      <View style={styles.signinContainer}>
+        <Text style={styles.signinText}>Já possui uma conta? </Text>
+        <TouchableOpacity>
+          <Text style={styles.signinLink} onPress={() => navigator.navigate("SignIn" as never)}>Acessar agora</Text>
+        </TouchableOpacity>
+      </View>
+
+      {message ? (
+        <Text style={[styles.message, { color: messageColor }]}>
+          {message}
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -156,6 +225,21 @@ const styles = StyleSheet.create({
     height: 20,
     resizeMode: "contain",
   },
+  signinContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+  },
+  signinText: {
+    fontSize: 14,
+    color: "#555555",
+  },
+  signinLink: {
+    fontSize: 14,
+    color: "#0056b3",
+    textDecorationLine: "none",
+  },
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -190,5 +274,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  message: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 16,
+    textAlign: "center",
   },
 });

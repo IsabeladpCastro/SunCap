@@ -2,6 +2,7 @@
   "expo": {
     "name": "SunCap",
     "slug": "SunCap",
+    "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -12,7 +13,7 @@
       "supportsTablet": true
     },
     "assets": [
-          "./node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"
+      "./node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"
     ],
     "android": {
       "adaptiveIcon": {
@@ -35,11 +36,11 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true
     }
-    
   }
 }
