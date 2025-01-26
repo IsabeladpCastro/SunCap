@@ -9,6 +9,9 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 
 export default function App() {
+  const weeklyHours = [5, 8, 10, 4, 8, 12, 0];
+  const totalHours = weeklyHours.reduce((sum, hours) => sum + hours, 0);
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -17,24 +20,39 @@ export default function App() {
 
         {/* Calendar */}
         <View style={styles.calendar}>
-          {["06 Seg", "07 Ter", "08 Qua", "09 Qui", "10 Sex", "11 Sáb", "12 Dom"].map((date, index) => (
-            <View
+          {[
+            { day: "Seg", hours: 13 },
+            { day: "Ter", hours: 7 },
+            { day: "Qua", hours: 8 },
+            { day: "Qui", hours: 9 },
+            { day: "Sex", hours: 10 },
+            { day: "Sáb", hours: 11 },
+            { day: "Dom", hours: 12 },
+          ].map((date, index) => (
+            <TouchableOpacity
               key={index}
-              style={[
-                styles.calendarItem,
-                date.includes("07") && styles.activeCalendarItem,
-              ]}
+              style={
+                date.day === "Ter"
+                  ? [styles.calendarItem, styles.activeCalendarItem]
+                  : styles.calendarItem
+              }
             >
-              <Text style={date.includes("07") ? styles.activeDate : styles.date}>
-                {date}
+              <Text style={styles.hours}>{date.hours}</Text>
+              <Text
+                style={
+                  date.day === "Ter" ? styles.activeDay : styles.day
+                }
+              >
+                {date.day}
               </Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
-
+        <Text style={styles.dashboardTitle}>Dashboard de Incidência UV</Text>
+   
         <View style={styles.dashboard}>
-          <Text style={styles.dashboardTitle}>Dashboard de Incidência UV</Text>
           <View style={styles.uvInfo}>
+            <Icon name="sunny" size={40} color="#FFD700" />
             <Text style={styles.uvIndex}>9</Text>
             <View>
               <Text style={styles.uvNow}>Agora</Text>
@@ -43,7 +61,7 @@ export default function App() {
           </View>
           <View style={styles.recommendations}>
             <Text style={styles.recText}>
-              🏠 Evite Exposição Direta: Busque por lugares cobertos ou de sombra
+              ⚠️ Evite Exposição Direta: Busque por lugares cobertos ou de sombra
             </Text>
             <Text style={styles.recText}>
               🌞 Use Protetor Solar: Aplique protetor solar com FPS 30 ou superior
@@ -55,18 +73,44 @@ export default function App() {
           </View>
         </View>
 
+        {/* Weekly Data */}
         <View style={styles.weeklyData}>
-          <Text style={styles.weeklyTitle}>Últimos 7 dias: 47h</Text>
+          <View style={styles.weeklyHeader}>
+            <Text style={styles.weeklyTitle}>Exposição semanal:</Text>
+            <Text style={styles.totalHours}>{totalHours}h</Text>
+          </View>
           <View style={styles.chart}>
-            {[5, 8, 10, 4, 8, 12, 0].map((hours, index) => (
+            {weeklyHours.map((hours, index) => (
               <View key={index} style={styles.barContainer}>
-                <View style={[styles.bar, { height: hours * 10 }]} />
-                <Text style={styles.barLabel}>{hours}</Text>
+                <View style={styles.barBackground}>
+                  <View
+                    style={[
+                      styles.barFilled,
+                      { height: (hours / 24) * 100 },
+                    ]}
+                  />
+                </View>
               </View>
             ))}
           </View>
         </View>
       </ScrollView>
+
+      {/* Navigation Bar */}
+      <View style={styles.navBar}>
+        <TouchableOpacity style={styles.navItem}>
+          <Icon name="wifi" size={24} color="#333" />
+          <Text style={styles.navText}>Conectar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <Icon name="home" size={24} color="#007bff" />
+          <Text style={styles.navTextActive}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <Icon name="person" size={24} color="#333" />
+          <Text style={styles.navText}>Perfil</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 }
@@ -74,112 +118,155 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#f9f9f9",
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
   header: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#ff6600",
-    marginVertical: 20,
+    color: "#FF6600",
+    marginBottom: 20,
+    textAlign: "left",
   },
   calendar: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   calendarItem: {
+    width: 53,
+    height: 55,
     paddingVertical: 10,
-    paddingHorizontal: 15,
     borderRadius: 10,
     backgroundColor: "#fff",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    position: "relative",
   },
   activeCalendarItem: {
     backgroundColor: "#007bff",
+    borderColor: "#007bff",
   },
-  date: {
+  hours: {
+    fontSize: 14,
+    color: "#333",
+    fontWeight: "bold",
+    position: "absolute",
+    top: 5, // Ajuste para ficar no topo
+  },
+  day: {
     fontSize: 12,
     color: "#333",
+    position: "absolute",
+    bottom: 5,
   },
-  activeDate: {
+  activeDay: {
     fontSize: 12,
     color: "#fff",
     fontWeight: "bold",
+    position: "absolute",
+    bottom: 5,
   },
   dashboard: {
     backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
+    padding: 10,
+    borderRadius: 12,
     marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
   },
   dashboardTitle: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  uvInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
+    marginTop: 15,
+    marginBottom: 15,
   },
   uvIndex: {
     fontSize: 48,
-    fontWeight: "bold",
-    color: "#ffcc00",
-    marginRight: 10,
+    color: "#000",
+    marginRight: 200,
+  },
+  uvInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
   },
   uvNow: {
     fontSize: 14,
-    color: "#555",
+    color: "#0A6ACB",
+    textAlign: "right",
+    padding: 5
   },
   uvStatus: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#ff0000",
+    color: "#000",
+    textAlign: "right",
   },
   recommendations: {
     backgroundColor: "#ffe5e5",
-    padding: 15,
-    borderRadius: 10,
+    padding: 20,
+    borderRadius: 12,
+    marginBottom: 20,
   },
   recText: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#333",
-    marginBottom: 10,
+    marginBottom: 12,
   },
   weeklyData: {
-    backgroundColor: "#e5f0ff",
-    padding: 20,
-    borderRadius: 10,
+    backgroundColor: "#E5F0FF",
+    padding: 25,
+    borderRadius: 12,
+    marginBottom: 20,
+  },
+  weeklyHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
   weeklyTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 10,
+  },
+  totalHours: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#007bff",
   },
   chart: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
   },
   barContainer: {
     alignItems: "center",
   },
-  bar: {
-    width: 20,
+  barBackground: {
+    width: 14,
+    height: 120,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
+    overflow: "hidden",
+  },
+  barFilled: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
     backgroundColor: "#007bff",
     borderRadius: 5,
-  },
-  barLabel: {
-    fontSize: 12,
-    color: "#333",
-    marginTop: 5,
   },
   navBar: {
     flexDirection: "row",
     justifyContent: "space-around",
     backgroundColor: "#fff",
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderTopWidth: 1,
     borderTopColor: "#ddd",
   },
@@ -188,7 +275,13 @@ const styles = StyleSheet.create({
   },
   navText: {
     fontSize: 12,
+    color: "#333",
+    marginTop: 5,
+  },
+  navTextActive: {
+    fontSize: 12,
     color: "#007bff",
     marginTop: 5,
+    fontWeight: "bold",
   },
 });

@@ -19,10 +19,10 @@ const AppRoutes = () => (
       headerShown: false,
     }}
   >
+    <AppStack.Screen name="Index" component={App} />
     <AppStack.Screen name="SignIn" component={SignIn} />
     <AppStack.Screen name="SignUp" component={SignUp} />
     <AppStack.Screen name="Splash" component={Splash} />
-    <AppStack.Screen name="Index" component={App} />
     <AppStack.Screen name="BluetoothScreen" component={BluetoothScreen} />
     <AppStack.Screen name="not-found" component={NotFoundScreen} />
   </AppStack.Navigator>
