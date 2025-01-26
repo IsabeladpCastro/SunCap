@@ -7,26 +7,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 export default function Splash() {
 
-  const [userId, setUserId] = useState<number>(0);
   const navigator = useNavigation();
-
-  useEffect(() => {
-    const fetchUserId = async () => {
-      const id = await AsyncStorage.getItem('@userId');
-      setUserId(id ? parseInt(id, 10) : 0);
-    };
-    fetchUserId();
-  }, []);
-
-  const handleIndex = async () => {
-    if (userId !== 0) {
-      await dbService.atualizarPrimeiroLogin(userId);
-      navigator.navigate('Index' as never);
-    } else {
-      console.log('ID do usuário não encontrado');
-    }
-  };
-
 
   return (
     <>

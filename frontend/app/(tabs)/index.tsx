@@ -49,7 +49,7 @@ export default function App() {
           ))}
         </View>
         <Text style={styles.dashboardTitle}>Dashboard de Incidência UV</Text>
-   
+
         <View style={styles.dashboard}>
           <View style={styles.uvInfo}>
             <Icon name="sunny" size={40} color="#FFD700" />
@@ -80,23 +80,24 @@ export default function App() {
             <Text style={styles.totalHours}>{totalHours}h</Text>
           </View>
           <View style={styles.chart}>
-            {weeklyHours.map((hours, index) => (
-              <View key={index} style={styles.barContainer}>
-                <View style={styles.barBackground}>
-                  <View
-                    style={[
-                      styles.barFilled,
-                      { height: (hours / 24) * 100 },
-                    ]}
-                  />
-                </View>
-              </View>
-            ))}
+        {weeklyHours.map((hours, index) => (
+          <View key={index} style={styles.barContainer}>
+            <View style={styles.barBackground}>
+              <View
+                style={[
+                  styles.barFilled,
+                  { height: (hours / 24) * 100 }, // Adjust height based on UV hours
+                ]}
+              />
+            </View>
+            {/* Displaying the corresponding UV exposure hours below the bar */}
+            <Text style={styles.barHours}>{hours}h</Text>
           </View>
+        ))}
+      </View>
         </View>
       </ScrollView>
 
-      {/* Navigation Bar */}
       <View style={styles.navBar}>
         <TouchableOpacity style={styles.navItem}>
           <Icon name="wifi" size={24} color="#333" />
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "bold",
     position: "absolute",
-    top: 5, // Ajuste para ficar no topo
+    top: 5,
   },
   day: {
     fontSize: 12,
@@ -261,6 +262,12 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#007bff",
     borderRadius: 5,
+  },
+  barHours: {
+    fontSize: 12,
+    marginTop: 5,
+    fontWeight: "bold",
+    color: "#333",
   },
   navBar: {
     flexDirection: "row",
