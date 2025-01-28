@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions 
 import dbService from "../../services/dbService"; 
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { fontFamilyDefault } from '@/assets/fonts/default-font';
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -19,9 +20,8 @@ export default function SignIn() {
       const usuario = await dbService.loginUsuario(email, senha);
       if (usuario) {
         console.log('Usuário logado:', usuario);
-        await AsyncStorage.setItem('@userId', usuario.id.toString());
         if(usuario.id === 0){
-          navigator.navigate('Index' as never);
+          navigator.navigate('SecondSunLoading' as never);
         }else{
           navigator.navigate('Splash' as never);
         }
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     color: "red",
     textAlign: "center",
     marginBottom: 10,
+    fontFamily: fontFamilyDefault,
   },
   container: {
     flex: 1,
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: 24,
     color: "#000",
+    fontFamily: fontFamilyDefault,
   },
   input: {
     height: 48,
@@ -125,6 +127,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    fontFamily: fontFamilyDefault,
   },
   inputContainer: {
     flexDirection: "row",
@@ -145,6 +148,7 @@ const styles = StyleSheet.create({
     height: 48,
     paddingHorizontal: 16,
     fontSize: 16,
+    fontFamily: fontFamilyDefault,
   },
   iconContainer: {
     paddingHorizontal: 12,
@@ -160,6 +164,7 @@ const styles = StyleSheet.create({
     color: "#0056b3",
     textDecorationLine: "none",
     marginBottom: 10,
+    fontFamily: fontFamilyDefault,
   },
   notRegisteredContainer: {
     flexDirection: "row",
@@ -170,11 +175,13 @@ const styles = StyleSheet.create({
   notRegisteredText: {
     fontSize: 14,
     color: "#555555",
+    fontFamily: fontFamilyDefault,
   },
   registerLink: {
     fontSize: 14,
     color: "#0056b3",
     textDecorationLine: "none",
+    fontFamily: fontFamilyDefault,
   },
   button: {
     backgroundColor: "#001f54",
@@ -188,5 +195,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+    fontFamily: fontFamilyDefault,
   },    
 });
