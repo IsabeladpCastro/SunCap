@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { fontFamilyDefault } from "@/assets/fonts/default-font";
 
 export default function App() {
   const weeklyHours = [5, 8, 10, 4, 8, 12, 0];
@@ -15,10 +16,7 @@ export default function App() {
   return (
     <>
       <ScrollView style={styles.container}>
-        {/* Header */}
         <Text style={styles.header}>SUNCAP</Text>
-
-        {/* Calendar */}
         <View style={styles.calendar}>
           {[
             { day: "Seg", hours: 13 },
@@ -73,28 +71,26 @@ export default function App() {
           </View>
         </View>
 
-        {/* Weekly Data */}
         <View style={styles.weeklyData}>
           <View style={styles.weeklyHeader}>
             <Text style={styles.weeklyTitle}>Exposição semanal:</Text>
             <Text style={styles.totalHours}>{totalHours}h</Text>
           </View>
           <View style={styles.chart}>
-        {weeklyHours.map((hours, index) => (
-          <View key={index} style={styles.barContainer}>
-            <View style={styles.barBackground}>
-              <View
-                style={[
-                  styles.barFilled,
-                  { height: (hours / 24) * 100 }, // Adjust height based on UV hours
-                ]}
-              />
-            </View>
-            {/* Displaying the corresponding UV exposure hours below the bar */}
-            <Text style={styles.barHours}>{hours}h</Text>
+            {weeklyHours.map((hours, index) => (
+              <View key={index} style={styles.barContainer}>
+                <View style={styles.barBackground}>
+                  <View
+                    style={[
+                      styles.barFilled,
+                      { height: (hours / 24) * 100 },
+                    ]}
+                  />
+                </View>
+                <Text style={styles.barHours}>{hours}h</Text>
+              </View>
+            ))}
           </View>
-        ))}
-      </View>
         </View>
       </ScrollView>
 
@@ -124,6 +120,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   header: {
+    fontFamily: fontFamilyDefault,
     fontSize: 24,
     fontWeight: "bold",
     color: "#FF6600",
@@ -131,6 +128,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   calendar: {
+    fontFamily: fontFamilyDefault,
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
@@ -151,6 +149,7 @@ const styles = StyleSheet.create({
     borderColor: "#007bff",
   },
   hours: {
+    fontFamily: fontFamilyDefault,
     fontSize: 14,
     color: "#333",
     fontWeight: "bold",
@@ -158,12 +157,14 @@ const styles = StyleSheet.create({
     top: 5,
   },
   day: {
+    fontFamily: fontFamilyDefault,
     fontSize: 12,
     color: "#333",
     position: "absolute",
     bottom: 5,
   },
   activeDay: {
+    fontFamily: fontFamilyDefault,
     fontSize: 12,
     color: "#fff",
     fontWeight: "bold",
@@ -182,11 +183,13 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   dashboardTitle: {
+    fontFamily: fontFamilyDefault,
     fontSize: 16,
     marginTop: 15,
     marginBottom: 15,
   },
   uvIndex: {
+    fontFamily: fontFamilyDefault,
     fontSize: 48,
     color: "#000",
     marginRight: 200,
@@ -198,12 +201,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   uvNow: {
+    fontFamily: fontFamilyDefault,
     fontSize: 14,
     color: "#0A6ACB",
     textAlign: "right",
-    padding: 5
+    padding: 5,
   },
   uvStatus: {
+    fontFamily: fontFamilyDefault,
     fontSize: 16,
     color: "#000",
     textAlign: "right",
@@ -215,6 +220,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   recText: {
+    fontFamily: fontFamilyDefault,
     fontSize: 16,
     color: "#333",
     marginBottom: 12,
@@ -231,10 +237,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   weeklyTitle: {
+    fontFamily: fontFamilyDefault,
     fontSize: 16,
     fontWeight: "bold",
   },
   totalHours: {
+    fontFamily: fontFamilyDefault,
     fontSize: 16,
     fontWeight: "bold",
     color: "#007bff",
@@ -248,7 +256,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   barBackground: {
-    width: 14,
+    width: 7,
     height: 120,
     backgroundColor: "#fff",
     borderWidth: 1,
@@ -259,11 +267,12 @@ const styles = StyleSheet.create({
   barFilled: {
     position: "absolute",
     bottom: 0,
-    width: "100%",
-    backgroundColor: "#007bff",
+    width: 7,
+    backgroundColor: "#00063D",
     borderRadius: 5,
   },
   barHours: {
+    fontFamily: fontFamilyDefault,
     fontSize: 12,
     marginTop: 5,
     fontWeight: "bold",
@@ -281,11 +290,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navText: {
+    fontFamily: fontFamilyDefault,
     fontSize: 12,
     color: "#333",
     marginTop: 5,
   },
   navTextActive: {
+    fontFamily: fontFamilyDefault,
     fontSize: 12,
     color: "#007bff",
     marginTop: 5,

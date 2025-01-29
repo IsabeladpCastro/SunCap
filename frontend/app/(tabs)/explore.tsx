@@ -1,5 +1,4 @@
 import { StyleSheet, Image, Platform } from 'react-native';
-
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -9,6 +8,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { fontFamilyDefault } from '@/assets/fonts/default-font';
 
 export default function BluetoothScreen() {
   return (
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
     color: '#000',
+    fontFamily: fontFamilyDefault,
   },
   bluetoothContainer: {
     flex: 1,
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
+    fontFamily: fontFamilyDefault,
   },
   connectButton: {
     backgroundColor: '#000080',
@@ -84,6 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
+    fontFamily: fontFamilyDefault,
   },
   navBar: {
     flexDirection: 'row',
@@ -101,6 +104,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#777',
     marginTop: 5,
+    fontFamily: fontFamilyDefault,
   },
 });
-

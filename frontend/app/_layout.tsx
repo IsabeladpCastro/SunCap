@@ -7,6 +7,8 @@ import SignUp from "@/app/(tabs)/signup";
 import BluetoothScreen from "@/app/(tabs)/explore";
 import NotFoundScreen from "@/app/+not-found";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import SunLoading from "./(tabs)/sun_loading";
+import SecondSunLoading from "./(tabs)/second_sun_loading";
 
 const AppStack = createStackNavigator();
 
@@ -19,8 +21,10 @@ const AppRoutes = () => (
       headerShown: false,
     }}
   >
+    <AppStack.Screen name="SunLoading" component={SunLoading} />
     <AppStack.Screen name="SignIn" component={SignIn} />
     <AppStack.Screen name="SignUp" component={SignUp} />
+    <AppStack.Screen name="SecondSunLoading" component={SecondSunLoading} />
     <AppStack.Screen name="Splash" component={Splash} />
     <AppStack.Screen name="Index" component={App} />
     <AppStack.Screen name="BluetoothScreen" component={BluetoothScreen} />
