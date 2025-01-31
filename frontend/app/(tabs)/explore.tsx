@@ -8,7 +8,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { fontFamilyDefault } from '@/assets/fonts/default-font';
+import { fontFamilyDefault } from '@/assets/fonts/default_font';
 
 export default function BluetoothScreen() {
   return (

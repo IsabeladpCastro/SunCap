@@ -1,10 +1,10 @@
+import { useNavigation } from "expo-router";
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
-export default function SunLoading() {
+export default function SecondLoading() {
   const rotateAnimation = useRef(new Animated.Value(0)).current;
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
 
   useEffect(() => {
     Animated.loop(
@@ -16,7 +16,7 @@ export default function SunLoading() {
     ).start();
 
     const timer = setTimeout(() => {
-      navigation.navigate('SignIn' as never);
+      navigation.navigate('Index' as never);
     }, 2500);
 
     return () => clearTimeout(timer);

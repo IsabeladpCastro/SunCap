@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
 import dbService from "../../services/dbService"; 
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fontFamilyDefault } from '@/assets/fonts/default-font';
+import { useNavigation } from "expo-router";
+import { fontFamilyDefault } from '@/assets/fonts/default_font';
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -19,9 +18,8 @@ export default function SignIn() {
     try {
       const usuario = await dbService.loginUsuario(email, senha);
       if (usuario) {
-        console.log('Usuário logado:', usuario);
         if(usuario.id === 0){
-          navigator.navigate('SecondSunLoading' as never);
+          navigator.navigate('Loading2' as never);
         }else{
           navigator.navigate('Splash' as never);
         }
@@ -64,7 +62,7 @@ export default function SignIn() {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.link}>Esqueceu sua senha?</Text>
+      <Text style={styles.link} onPress={() => {navigator.navigate('not-found' as never)}}>Esqueceu sua senha?</Text>
 
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
