@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -7,12 +6,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "expo-router";
+import React, { useEffect, useState } from "react";
 
 export default function App() {
   const weeklyHours = [5, 8, 10, 4, 8, 12, 0];
   const totalHours = weeklyHours.reduce((sum, hours) => sum + hours, 0);
+  const navigator = useNavigation();
 
   return (
+    
     <>
       <ScrollView style={styles.container}>
         {/* Header */}
@@ -99,15 +102,15 @@ export default function App() {
       </ScrollView>
 
       <View style={styles.navBar}>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() =>{console.log("teste"); navigator.navigate("BluetoothScreen" as never);}}>
           <Icon name="wifi" size={24} color="#333" />
           <Text style={styles.navText}>Conectar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} >
           <Icon name="home" size={24} color="#007bff" />
           <Text style={styles.navTextActive}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() =>{console.log("teste"); navigator.navigate("Perfil" as never);}}>
           <Icon name="person" size={24} color="#333" />
           <Text style={styles.navText}>Perfil</Text>
         </TouchableOpacity>

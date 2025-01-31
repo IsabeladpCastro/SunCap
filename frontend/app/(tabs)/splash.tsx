@@ -52,8 +52,8 @@ export default function Splash() {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.connectButton}>
-          <Text style={styles.connectButtonText} onPress={() => navigator.navigate("Index" as never)}>Começar</Text>
+        <TouchableOpacity style={styles.connectButton} onPress={() =>{ console.log("teste"); navigator.navigate("Index" as never);}}>
+          <Text style={styles.connectButtonText}>Começar</Text>
         </TouchableOpacity>
 
       </ScrollView>
