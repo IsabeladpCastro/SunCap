@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import CheckBox from "expo-checkbox";
 import dbService from "../../services/dbService";
-import { useNavigation } from "@react-navigation/native";
-import { fontFamilyDefault } from "@/assets/fonts/default-font";
+import { useNavigation } from "expo-router";
+import { fontFamilyDefault } from "@/assets/fonts/default_font";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -45,10 +45,11 @@ export default function SignUp() {
 
       console.log(usuarioCriado);
 
-      navigator.navigate("Splash" as never); 
-
       setMessage(`Usuário ${name} cadastrado com sucesso!`);
       setMessageColor("green");
+
+      navigator.navigate("LoadingScreen2" as never); 
+
       setName("");
       setEmail("");
       setPassword("");
