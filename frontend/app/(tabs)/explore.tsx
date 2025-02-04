@@ -9,14 +9,17 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { fontFamilyDefault } from '@/assets/fonts/default_font';
+import { useNavigation } from 'expo-router';
 
 export default function BluetoothScreen() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color="#000" onPress={() => navigation.navigate('Index' as never)}/>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Conexão_Bluetooth</Text>
       </View>
