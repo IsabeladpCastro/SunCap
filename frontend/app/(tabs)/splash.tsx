@@ -1,5 +1,4 @@
 import dbService from "@/services/dbService";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from "react-native";
@@ -9,8 +8,11 @@ export default function Splash() {
 
   const navigator = useNavigation();
 
+  const handleIndex = async () => {
+    navigator.navigate('Loading2' as never)
+  }
+
   return (
-    <>
       <ScrollView style={styles.container}>
 
         <Text style={styles.header}>SUNCAP</Text>
@@ -52,12 +54,10 @@ export default function Splash() {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.connectButton} onPress={() =>{ console.log("teste"); navigator.navigate("Index" as never);}}>
+        <TouchableOpacity style={styles.connectButton} onPress={handleIndex}>
           <Text style={styles.connectButtonText}>Começar</Text>
         </TouchableOpacity>
-
       </ScrollView>
-    </>
   );
 }
 

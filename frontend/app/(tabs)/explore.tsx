@@ -1,25 +1,21 @@
 import { StyleSheet, Image, Platform } from 'react-native';
-
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useNavigation } from "expo-router";
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { fontFamilyDefault } from '@/assets/fonts/default_font';
 
 export default function BluetoothScreen() {
-
-  const navigator = useNavigation();
-
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() =>{console.log("teste"); navigator.navigate("Index" as never);}}>
+        <TouchableOpacity>
           <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Conexão_Bluetooth</Text>
@@ -57,6 +53,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
     color: '#000',
+    fontFamily: fontFamilyDefault,
   },
   bluetoothContainer: {
     flex: 1,
@@ -76,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
+    fontFamily: fontFamilyDefault,
   },
   connectButton: {
     backgroundColor: '#000080',
@@ -88,6 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
+    fontFamily: fontFamilyDefault,
   },
   navBar: {
     flexDirection: 'row',
@@ -105,6 +104,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#777',
     marginTop: 5,
+    fontFamily: fontFamilyDefault,
   },
 });
-

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useNavigation } from "expo-router";
 
-
 export default function StartScreen (){
+  
     const navigator = useNavigation();
     useEffect(() => {
         //Espera 3 segundos e navega para a tela inicial

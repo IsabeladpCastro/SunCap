@@ -10,7 +10,8 @@ import {
 } from "react-native";
 import CheckBox from "expo-checkbox";
 import dbService from "../../services/dbService";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
+import { fontFamilyDefault } from "@/assets/fonts/default_font";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -44,10 +45,11 @@ export default function SignUp() {
 
       console.log(usuarioCriado);
 
-      navigator.navigate("Splash" as never); 
-
       setMessage(`Usuário ${name} cadastrado com sucesso!`);
       setMessageColor("green");
+
+      navigator.navigate("LoadingScreen2" as never); 
+
       setName("");
       setEmail("");
       setPassword("");
@@ -67,17 +69,17 @@ export default function SignUp() {
         />
       </View>
 
-      <Text style={styles.title}>Faça seu cadastro!</Text>
+      <Text style={[styles.title, { fontFamily: fontFamilyDefault }]}>Faça seu cadastro!</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, { fontFamily: fontFamilyDefault }]}
         placeholder="Nome"
         placeholderTextColor="#ddd"
         value={name}
         onChangeText={setName}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { fontFamily: fontFamilyDefault }]}
         placeholder="Email"
         keyboardType="email-address"
         placeholderTextColor="#ddd"
@@ -87,7 +89,7 @@ export default function SignUp() {
 
       <View style={styles.inputContainer}>
         <TextInput
-          style={styles.inputField}
+          style={[styles.inputField, { fontFamily: fontFamilyDefault }]}
           placeholder="Senha"
           placeholderTextColor="#ddd"
           secureTextEntry={!showPassword}
@@ -107,7 +109,7 @@ export default function SignUp() {
 
       <View style={styles.inputContainer}>
         <TextInput
-          style={styles.inputField}
+          style={[styles.inputField, { fontFamily: fontFamilyDefault }]}
           placeholder="Confirmar senha"
           placeholderTextColor="#ddd"
           secureTextEntry={!showConfirmPassword}
@@ -130,7 +132,7 @@ export default function SignUp() {
           style={styles.checkbox}
           color="#001f94"
         />
-        <Text style={styles.checkboxText}>
+        <Text style={[styles.checkboxText, { fontFamily: fontFamilyDefault }]}>
           Concordo que li e aceito todos os{" "}
           <Text style={styles.link}>Termos de uso</Text> e{" "}
           <Text style={styles.link}>Políticas de Privacidade</Text>.
@@ -138,18 +140,18 @@ export default function SignUp() {
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Cadastrar</Text>
+        <Text style={[styles.buttonText, { fontFamily: fontFamilyDefault }]}>Cadastrar</Text>
       </TouchableOpacity>
 
       <View style={styles.signinContainer}>
-        <Text style={styles.signinText}>Já possui uma conta? </Text>
+        <Text style={[styles.signinText, { fontFamily: fontFamilyDefault }]}>Já possui uma conta? </Text>
         <TouchableOpacity>
-          <Text style={styles.signinLink} onPress={() => navigator.navigate("SignIn" as never)}>Acessar agora</Text>
+          <Text style={[styles.signinLink, { fontFamily: fontFamilyDefault }]} onPress={() => navigator.navigate("SignIn" as never)}>Acessar agora</Text>
         </TouchableOpacity>
       </View>
 
       {message ? (
-        <Text style={[styles.message, { color: messageColor }]}>
+        <Text style={[styles.message, { color: messageColor, fontFamily: fontFamilyDefault }]}>
           {message}
         </Text>
       ) : null}
