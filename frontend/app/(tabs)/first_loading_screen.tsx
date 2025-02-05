@@ -56,12 +56,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sun: {
-    width: 150,
-    height: 150,
+    width: 130,
+    height: 130,
     marginBottom: 10,
   },
   text: {
-    width: 200,
-    height: 50,
+    width: 180,
+    height: 40,
   },
 });

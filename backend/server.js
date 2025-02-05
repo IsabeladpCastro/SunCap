@@ -125,7 +125,7 @@ app.put('/usuarios/:id', async (req, res) => {
 const PORT = 3000;
 const IP_ADDRESS = getLocalIPAddress();
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando em http://${IP_ADDRESS}:${PORT}`);
 });
 

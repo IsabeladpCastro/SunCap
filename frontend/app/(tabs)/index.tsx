@@ -9,6 +9,9 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import { fontFamilyDefault } from "@/assets/fonts/default_font";
 import { useNavigation } from "expo-router";
+import SelfCareRecommendations from "@/components/SelfCareRecommendations";
+import BottomNavBar from "@/components/BottomBar";
+
 
 export default function App() {
   const weeklyHours = [5, 8, 10, 4, 8, 12, 0];
@@ -19,7 +22,11 @@ export default function App() {
     <>
       <ScrollView style={styles.container}>
         <Text style={styles.header}>SUNCAP</Text>
-        <View style={styles.calendar}>
+
+            <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
           {[
             { day: "Seg", hours: 13 },
             { day: "Ter", hours: 7 },
@@ -31,23 +38,22 @@ export default function App() {
           ].map((date, index) => (
             <TouchableOpacity
               key={index}
-              style={
-                date.day === "Ter"
-                  ? [styles.calendarItem, styles.activeCalendarItem]
-                  : styles.calendarItem
-              }
+              style={[
+                styles.calendarItem,
+                date.day === "Ter" && styles.activeCalendarItem,
+                { width: 50, marginRight: 10 },
+              ]}
             >
               <Text style={styles.hours}>{date.hours}</Text>
               <Text
-                style={
-                  date.day === "Ter" ? styles.activeDay : styles.day
-                }
+                style={date.day === "Ter" ? styles.activeDay : styles.day}
               >
                 {date.day}
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
+
         <Text style={styles.dashboardTitle}>Dashboard de Incidência UV</Text>
 
         <View style={styles.dashboard}>
@@ -58,19 +64,8 @@ export default function App() {
               <Text style={styles.uvNow}>Agora</Text>
               <Text style={styles.uvStatus}>Muito alto</Text>
             </View>
-          </View>
-          <View style={styles.recommendations}>
-            <Text style={styles.recText}>
-              ⚠️ Evite Exposição Direta: Busque por lugares cobertos ou de sombra
-            </Text>
-            <Text style={styles.recText}>
-              🌞 Use Protetor Solar: Aplique protetor solar com FPS 30 ou superior
-            </Text>
-            <Text style={styles.recText}>
-              💧 Hidratação Constante: Beba bastante água ao longo do dia para
-              evitar desidratação
-            </Text>
-          </View>
+          </View> 
+          <SelfCareRecommendations uv_incidence={9}/>  
         </View>
 
         <View style={styles.weeklyData}>
@@ -96,20 +91,7 @@ export default function App() {
         </View>
       </ScrollView>
 
-      <View style={styles.navBar}>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('BluetoothScreen' as never)}>
-          <Icon name="wifi" size={24} color="#333" />
-          <Text style={styles.navText}>Conectar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="home" size={24} color="#007bff" />
-          <Text style={styles.navTextActive}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('Profile' as never)}>
-          <Icon name="person" size={24} color="#333" />
-          <Text style={styles.navText}>Perfil</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavBar />
     </>
   );
 }
@@ -174,7 +156,7 @@ const styles = StyleSheet.create({
     bottom: 5,
   },
   dashboard: {
-    backgroundColor: "#fff",
+    backgroundColor: "#EFEFEF",
     padding: 10,
     borderRadius: 12,
     marginBottom: 20,
@@ -194,13 +176,16 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilyDefault,
     fontSize: 48,
     color: "#000",
-    marginRight: 200,
+    right: 70,
+    justifyContent: 'center',
   },
   uvInfo: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    top: 7,
+    position: 'fixed'
   },
   uvNow: {
     fontFamily: fontFamilyDefault,
@@ -208,6 +193,7 @@ const styles = StyleSheet.create({
     color: "#0A6ACB",
     textAlign: "right",
     padding: 5,
+
   },
   uvStatus: {
     fontFamily: fontFamilyDefault,
@@ -215,23 +201,15 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "right",
   },
-  recommendations: {
-    backgroundColor: "#ffe5e5",
-    padding: 20,
-    borderRadius: 12,
-    marginBottom: 20,
-  },
-  recText: {
-    fontFamily: fontFamilyDefault,
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 12,
-  },
   weeklyData: {
     backgroundColor: "#E5F0FF",
     padding: 25,
     borderRadius: 12,
-    marginBottom: 20,
+    marginBottom: 50,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
   },
   weeklyHeader: {
     flexDirection: "row",
@@ -295,7 +273,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilyDefault,
     fontSize: 12,
     color: "#333",
-    marginTop: 5,
+    marginTop: 5,   
   },
   navTextActive: {
     fontFamily: fontFamilyDefault,

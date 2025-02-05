@@ -1,0 +1,1 @@
+export const fontFamilyDefault = "Inter_18pt-Regular.ttf";

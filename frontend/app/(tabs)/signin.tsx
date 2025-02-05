@@ -18,12 +18,9 @@ export default function SignIn() {
     try {
       const usuario = await dbService.loginUsuario(email, senha);
       if (usuario) {
-        if(usuario.id === 0){
-          navigator.navigate('Loading2' as never);
-        }else{
           navigator.navigate('Splash' as never);
         }
-      } else {
+      else {
         setError('Email ou senha incorretos.');
       }
     } catch (error) {

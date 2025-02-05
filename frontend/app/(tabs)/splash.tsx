@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     position: "absolute",
-    bottom: -350,
+    bottom: Dimensions.get('screen').height*-0.25,
     left: 0,
     right: 0,
   },

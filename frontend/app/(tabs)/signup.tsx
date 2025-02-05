@@ -12,7 +12,6 @@ import CheckBox from "expo-checkbox";
 import dbService from "../../services/dbService";
 import { useNavigation } from "expo-router";
 import { fontFamilyDefault } from "@/assets/fonts/default_font";
-
 const { width: screenWidth } = Dimensions.get("window");
 
 export default function SignUp() {
@@ -29,7 +28,7 @@ export default function SignUp() {
 
   const handleSubmit = async () => {
     if (!isChecked) {
-      setMessage("Você deve aceitar os Termos de uso e Políticas de Privacidade.");
+      setMessage("Você deve aceitar líticas de Privacidade.");
       setMessageColor("red");
       return;
     }
@@ -46,9 +45,11 @@ export default function SignUp() {
       console.log(usuarioCriado);
 
       setMessage(`Usuário ${name} cadastrado com sucesso!`);
+
+      dbService.atualizarPrimeiroLogin(usuarioCriado.id);
       setMessageColor("green");
 
-      navigator.navigate("LoadingScreen2" as never); 
+      navigator.navigate("Splash" as never); 
 
       setName("");
       setEmail("");
