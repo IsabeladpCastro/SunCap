@@ -9,7 +9,7 @@ export default function Splash() {
   const navigator = useNavigation();
 
   const handleIndex = async () => {
-    navigator.navigate('Loading2' as never)
+    navigator.navigate('SecondLoadingScreen' as never)
   }
 
   return (
