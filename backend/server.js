@@ -182,6 +182,19 @@ app.get('/usuarios/primeiro-acesso/:id', (req, res) => {
   });
 });
 
+app.get('/exposicao/:usuario_id', (req, res) => {
+  const { usuario_id } = req.params;
+  const query = `SELECT * FROM exposicao_usuario WHERE usuario_id = ?`;
+
+  db.all(query, [usuario_id], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json(rows);
+    }
+  });
+});
+
 const PORT = 3000;
 const IP_ADDRESS = getLocalIPAddress();
 const API_URL = `http://${IP_ADDRESS}:${PORT}`

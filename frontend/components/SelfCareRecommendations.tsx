@@ -8,7 +8,7 @@ interface Props {
 
 const SelfCareRecommendations: React.FC<Props> = ({ uv_incidence })  => {
 
-  if(uv_incidence <= 6){
+  if(uv_incidence < 7){
     return null;
   }
 
