@@ -2,7 +2,7 @@ import { useNavigation } from "expo-router";
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Animated, Image } from 'react-native';
 
-export default function FirstLoading() {
+export default function SecondLoading() {
   const rotateAnimation = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 

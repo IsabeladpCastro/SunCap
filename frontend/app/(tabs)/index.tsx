@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,22 +8,21 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { fontFamilyDefault } from "@/assets/fonts/default_font";
-import { useNavigation } from "expo-router";
 import SelfCareRecommendations from "@/components/SelfCareRecommendations";
 import BottomNavBar from "@/components/BottomBar";
 
-
 export default function App() {
+  const [selectedDay, setSelectedDay] = useState("Ter");  // Estado para o dia selecionado
+
   const weeklyHours = [5, 8, 10, 4, 8, 12, 0];
   const totalHours = weeklyHours.reduce((sum, hours) => sum + hours, 0);
-  const navigation = useNavigation();
 
   return (
     <>
       <ScrollView style={styles.container}>
         <Text style={styles.header}>SUNCAP</Text>
 
-            <ScrollView
+        <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
         >
@@ -38,15 +37,16 @@ export default function App() {
           ].map((date, index) => (
             <TouchableOpacity
               key={index}
+              onPress={() => setSelectedDay(date.day)} // Altera o dia selecionado
               style={[
                 styles.calendarItem,
-                date.day === "Ter" && styles.activeCalendarItem,
+                date.day === selectedDay && styles.activeCalendarItem, // Aplica o estilo ativo ao dia selecionado
                 { width: 50, marginRight: 10 },
               ]}
             >
               <Text style={styles.hours}>{date.hours}</Text>
               <Text
-                style={date.day === "Ter" ? styles.activeDay : styles.day}
+                style={date.day === selectedDay ? styles.activeDay : styles.day}
               >
                 {date.day}
               </Text>
@@ -64,8 +64,8 @@ export default function App() {
               <Text style={styles.uvNow}>Agora</Text>
               <Text style={styles.uvStatus}>Muito alto</Text>
             </View>
-          </View> 
-          <SelfCareRecommendations uv_incidence={9}/>  
+          </View>
+          <SelfCareRecommendations uv_incidence={9} />
         </View>
 
         <View style={styles.weeklyData}>
@@ -193,7 +193,6 @@ const styles = StyleSheet.create({
     color: "#0A6ACB",
     textAlign: "right",
     padding: 5,
-
   },
   uvStatus: {
     fontFamily: fontFamilyDefault,

@@ -3,12 +3,21 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Iconf from 'react-native-vector-icons/Feather';
 import { useNavigation } from "expo-router";
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useAuth } from '@/contexts/authContext';
 
 export default function Perfil(){
     const navigator = useNavigation();
+    const { user, logout } = useAuth(); 
+
+    const handleLogout = () => {
+      logout(); 
+      navigator.navigate('SignIn' as never); 
+    };
+
+
   return (
     <View style={styles.container}>
-        <TouchableOpacity onPress={() =>{console.log("teste"); navigator.navigate("Index" as never);}}>
+        <TouchableOpacity onPress={() =>{navigator.navigate("Index" as never);}}>
             <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
       <Text style={styles.header}>Perfil</Text>
@@ -23,9 +32,9 @@ export default function Perfil(){
             <Iconf name="edit-2" size={16} color="#fff" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.username}>Usuário1</Text>
-        <Text style={styles.userTag}>@Usuario1</Text>
-      </View>
+        <Text style={styles.username}>{user?.name}</Text>
+        <Text style={styles.userTag}>@{user?.name}</Text>
+      </View> 
 
       <View style={styles.menu}>
         <TouchableOpacity style={styles.menuItem}>
@@ -38,7 +47,7 @@ export default function Perfil(){
           <Iconf name="chevron-right" size={20} color="#888" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
           <Text style={styles.menuText}>Sair</Text>
           <Iconf name="chevron-right" size={20} color="#888" />
         </TouchableOpacity>

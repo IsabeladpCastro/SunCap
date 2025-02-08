@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.0.11:3000"; 
+const API_URL = 'http://192.168.15.7:3000'
 
 export interface Usuario {
   id: number;
@@ -83,7 +83,7 @@ const dbService = {
       if (response.data) {
         return response.data;
       } else {
-        return null; 
+        return null;
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
@@ -91,7 +91,39 @@ const dbService = {
     }
   },
 
-  async atualizarPrimeiroLogin(usuarioId: number): Promise<void> {
+  async getIdFromEmail(email: string): Promise<number> {
+    try {
+      const response = await axios.get<{ id: number }>(`${API_URL}/usuarios/id`, {
+        params: { email },
+      });
+      return response.data.id;
+    } catch (error) {
+      console.error("Erro ao buscar ID do usuário:", error);
+      return -1;
+    }
+  },
+
+  async getNameById(usuarioId: number): Promise<string | null> {
+    try {
+      const response = await axios.get<{ nome: string }>(`${API_URL}/usuarios/nome/${usuarioId}`);
+      return response.data.nome;
+    } catch (error) {
+      console.error("Erro ao buscar nome do usuário:", error);
+      return null;
+    }
+  },
+
+  async getEmailById(usuarioId: number): Promise<string | null> {
+    try {
+      const response = await axios.get<{ email: string }>(`${API_URL}/usuarios/email/${usuarioId}`);
+      return response.data.email;
+    } catch (error) {
+      console.error("Erro ao buscar email do usuário:", error);
+      return null;
+    }
+  },
+
+  async updateFirstLogin(usuarioId: number): Promise<void> {
     try {
       await axios.put(`${API_URL}/usuarios/${usuarioId}`, {
         primeiro_acesso: 0,
@@ -101,6 +133,19 @@ const dbService = {
       throw error;
     }
   },
+
+  async getFirstAccessById(usuarioId: number): Promise<number> {
+    try {
+      const response = await axios.get<{ primeiro_acesso: number }>(
+        `${API_URL}/usuarios/primeiro-acesso/${usuarioId}`
+      );
+      return response.data.primeiro_acesso;
+    } catch (error) {
+      console.error("Erro ao buscar status de primeiro acesso:", error);
+      return -1;
+    }
+  }
+  
 };
 
 export default dbService;

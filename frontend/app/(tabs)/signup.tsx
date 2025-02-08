@@ -12,7 +12,9 @@ import CheckBox from "expo-checkbox";
 import dbService from "../../services/dbService";
 import { useNavigation } from "expo-router";
 import { fontFamilyDefault } from "@/assets/fonts/default_font";
+
 const { width: screenWidth } = Dimensions.get("window");
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -26,28 +28,58 @@ export default function SignUp() {
 
   const navigator = useNavigation();
 
+  const validateEmail = (email: string) => {
+    return emailRegex.test(email);
+  };
+
+  const validateName = (name: string) => {
+    return name.length > 1;
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 6;
+  };
+
   const handleSubmit = async () => {
     if (!isChecked) {
-      setMessage("Você deve aceitar líticas de Privacidade.");
+      setMessage("Você deve aceitar as políticas de Privacidade.");
       setMessageColor("red");
       return;
     }
 
-    if (!name || !email || !password) {
-      setMessage("Todos os campos devem ser preenchidos.");
+    if (!validateEmail(email)) {
+      setMessage("Insira um email válido!");
+      setMessageColor("red");
+      return;
+    }
+
+    if (!validateName(name)) {
+      setMessage("Nome deve ter mais de 1 caractere.");
+      setMessageColor("red");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setMessage("Senha deve ter pelo menos 6 caracteres.");
       setMessageColor("red");
       return;
     }
 
     try {
-      const usuarioCriado = await dbService.createUsuario(name, email, password);
+      const emailExists = await dbService.getIdFromEmail(email);
+      if (emailExists !== -1) {
+        setMessage("Este e-mail já está registrado.");
+        setMessageColor("red");
+        return;
+      }
 
-      console.log(usuarioCriado);
+      const _ = await dbService.createUsuario(name, email, password);
+      const id = await dbService.getIdFromEmail(email);
 
       setMessage(`Usuário ${name} cadastrado com sucesso!`);
-
-      dbService.atualizarPrimeiroLogin(usuarioCriado.id);
       setMessageColor("green");
+
+      dbService.updateFirstLogin(id);
 
       navigator.navigate("Splash" as never); 
 
@@ -58,6 +90,37 @@ export default function SignUp() {
     } catch (error) {
       setMessage("Não foi possível realizar o cadastro. Tente novamente.");
       setMessageColor("red");
+    }
+  };
+
+  // Validações em tempo real
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+    if (!validateEmail(text)) {
+      setMessage("Email inválido");
+      setMessageColor("red");
+    } else {
+      setMessage("");
+    }
+  };
+
+  const handleNameChange = (text: string) => {
+    setName(text);
+    if (!validateName(text)) {
+      setMessage("Nome não pode ser vazio ou ter menos de 2 caracteres.");
+      setMessageColor("red");
+    } else {
+      setMessage("");
+    }
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    if (!validatePassword(text)) {
+      setMessage("Senha deve ter pelo menos 6 caracteres.");
+      setMessageColor("red");
+    } else {
+      setMessage("");
     }
   };
 
@@ -77,7 +140,7 @@ export default function SignUp() {
         placeholder="Nome"
         placeholderTextColor="#ddd"
         value={name}
-        onChangeText={setName}
+        onChangeText={handleNameChange}  
       />
       <TextInput
         style={[styles.input, { fontFamily: fontFamilyDefault }]}
@@ -85,7 +148,7 @@ export default function SignUp() {
         keyboardType="email-address"
         placeholderTextColor="#ddd"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleEmailChange}  
       />
 
       <View style={styles.inputContainer}>
@@ -95,7 +158,7 @@ export default function SignUp() {
           placeholderTextColor="#ddd"
           secureTextEntry={!showPassword}
           value={password}
-          onChangeText={setPassword}
+          onChangeText={handlePasswordChange} 
         />
         <TouchableOpacity
           onPress={() => setShowPassword(!showPassword)}

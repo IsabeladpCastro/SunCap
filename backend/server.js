@@ -122,10 +122,71 @@ app.put('/usuarios/:id', async (req, res) => {
   }
 });
 
+app.get('/usuarios/id', (req, res) => {
+  const { email } = req.query;
+  const query = 'SELECT id FROM usuarios WHERE email = ?';
+
+  db.get(query, [email], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (!row) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+    res.json({ id: row.id });
+  });
+});
+
+app.get('/usuarios/nome/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT nome FROM usuarios WHERE id = ?';
+
+  db.get(query, [id], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (!row) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+    res.json({ nome: row.nome });
+  });
+});
+
+app.get('/usuarios/email/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT email FROM usuarios WHERE id = ?';
+
+  db.get(query, [id], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (!row) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+    res.json({ email: row.email });
+  });
+});
+
+app.get('/usuarios/primeiro-acesso/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT primeiro_acesso FROM usuarios WHERE id = ?';
+
+  db.get(query, [id], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (!row) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+    res.json({ primeiro_acesso: row.primeiro_acesso });
+  });
+});
+
 const PORT = 3000;
 const IP_ADDRESS = getLocalIPAddress();
+const API_URL = `http://${IP_ADDRESS}:${PORT}`
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor rodando em http://${IP_ADDRESS}:${PORT}`);
+  console.log(`Servidor rodando em ${API_URL}`);
 });
 
