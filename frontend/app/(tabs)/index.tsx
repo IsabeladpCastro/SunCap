@@ -13,7 +13,7 @@ import BottomNavBar from "@/components/BottomBar";
 import dbService from "@/services/dbService";
 import { useAuth } from '@/contexts/authContext';
 
-export default function App() {
+export default function SignIn() {
   const [exposicoes, setExposicoes] = useState<number[]>([]); 
   const [totalExposicao, setTotalExposicao] = useState<number>(0);
   const [mean_uv, setMeanUV] = useState<number[]>([]);  
@@ -50,9 +50,18 @@ export default function App() {
     ];
   }, [exposicoes]);
 
+  const calculateAverageUV = () => {
+    if (mean_uv.length === 0) return 0;
+    const sum = mean_uv.reduce((total, uv) => total + uv, 0);
+    return sum / mean_uv.length;
+  };
+
   const getUVForSelectedDay = () => {
-    const dayIndex = weeklyHours.findIndex(item => item.day === selectedDay);
-    return mean_uv[dayIndex] || 0;
+    if (selectedDay) {
+      const dayIndex = weeklyHours.findIndex(item => item.day === selectedDay);
+      return mean_uv[dayIndex] || 0;
+    }
+    return calculateAverageUV(); 
   };
 
   return (
@@ -106,19 +115,21 @@ export default function App() {
             <Text style={styles.totalHours}>{totalExposicao / 3600} Horas</Text>
           </View>
           <View style={styles.chart}>
-            {weeklyHours.map((item, index) => (
-              <View key={index} style={styles.barContainer}>
-                <View style={styles.barBackground}>
-                  <View
-                    style={[
-                      styles.barFilled,
-                      { height: (item.hours / 24) * 100 },
-                    ]}
-                  />
+            {weeklyHours
+              .filter(item => !selectedDay || item.day === selectedDay)
+              .map((item, index) => (
+                <View key={index} style={styles.barContainer}>
+                  <View style={styles.barBackground}>
+                    <View
+                      style={[
+                        styles.barFilled,
+                        { height: (item.hours / 24) * 100 },
+                      ]}
+                    />
+                  </View>
+                  <Text style={styles.barHours}>{item.hours}h</Text>
                 </View>
-                <Text style={styles.barHours}>{item.hours}h</Text>
-              </View>
-            ))}
+              ))}
           </View>
         </View>
       </ScrollView>
@@ -255,6 +266,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
   },
+  centeredBar: {
+    alignItems: "center",
+  },
   barContainer: {
     alignItems: "center",
   },
@@ -265,36 +279,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ddd",
     borderRadius: 5,
-    overflow: "hidden",
   },
   barFilled: {
-    position: "absolute",
-    bottom: 0,
-    width: 7,
     backgroundColor: "#00063D",
     borderRadius: 5,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
   },
   barHours: {
     fontFamily: fontFamilyDefault,
-    fontSize: 12,
-    marginTop: 5,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  navBar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#fff",
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#ddd",
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  navText: {
-    fontFamily: fontFamilyDefault,
-    fontSize: 12,
+    fontSize: 10,
     color: "#333",
     marginTop: 5,
   },
