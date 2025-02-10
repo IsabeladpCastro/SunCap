@@ -122,17 +122,24 @@ app.put('/usuarios/:id', async (req, res) => {
   }
 });
 
-app.get('/usuarios/id', (req, res) => {
-  const { email } = req.query;
-  const query = 'SELECT id FROM usuarios WHERE email = ?';
+app.get('/usuarios/:email', (req, res) => {
+  const { email } = req.params;
+  
+  if (!email) {
+    return res.status(400).json({ error: 'Parâmetro "email" é obrigatório.' });
+  }
 
+  const query = 'SELECT id FROM usuarios WHERE email = ?';
+  
   db.get(query, [email], (err, row) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
+    
     if (!row) {
       return res.status(404).json({ error: 'Usuário não encontrado.' });
     }
+    
     res.json({ id: row.id });
   });
 });

@@ -93,15 +93,13 @@ const dbService = {
 
   async getIdFromEmail(email: string): Promise<number> {
     try {
-      const response = await axios.get<{ id: number }>(`${API_URL}/usuarios/id`, {
-        params: { email },
-      });
+      const response = await axios.get<{ id: number }>(`${API_URL}/usuarios/${email}`);
       return response.data.id;
     } catch (error) {
       console.error("Erro ao buscar ID do usuário:", error);
       return -1;
     }
-  },
+  },  
 
   async getNameById(usuarioId: number): Promise<string | null> {
     try {

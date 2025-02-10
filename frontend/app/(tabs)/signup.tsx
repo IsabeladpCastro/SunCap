@@ -46,42 +46,46 @@ export default function SignUp() {
       setMessageColor("red");
       return;
     }
-
+  
     if (!validateEmail(email)) {
       setMessage("Insira um email válido!");
       setMessageColor("red");
       return;
     }
-
+  
     if (!validateName(name)) {
       setMessage("Nome deve ter mais de 1 caractere.");
       setMessageColor("red");
       return;
     }
-
+  
     if (!validatePassword(password)) {
       setMessage("Senha deve ter pelo menos 6 caracteres.");
       setMessageColor("red");
       return;
     }
-
+  
     try {
-      const emailExists = await dbService.getIdFromEmail(email);
-      if (emailExists !== -1) {
+      const usuarios = await dbService.getUsuarios();
+      
+      const emailExists = usuarios.some(user => user.email === email);
+      
+      if (emailExists) {
         setMessage("Este e-mail já está registrado.");
         setMessageColor("red");
         return;
       }
-
+  
       const _ = await dbService.createUsuario(name, email, password);
+      
       const id = await dbService.getIdFromEmail(email);
-
+  
       setMessage(`Usuário ${name} cadastrado com sucesso!`);
       setMessageColor("green");
-
+  
       dbService.updateFirstLogin(id);
-
-      navigator.navigate("Splash" as never); 
+  
+      navigator.navigate("Splash" as never);
 
       setName("");
       setEmail("");
@@ -91,9 +95,8 @@ export default function SignUp() {
       setMessage("Não foi possível realizar o cadastro. Tente novamente.");
       setMessageColor("red");
     }
-  };
+  };  
 
-  // Validações em tempo real
   const handleEmailChange = (text: string) => {
     setEmail(text);
     if (!validateEmail(text)) {
