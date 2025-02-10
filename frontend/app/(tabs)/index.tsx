@@ -53,13 +53,13 @@ export default function App() {
   const calculateAverageUV = () => {
     if (mean_uv.length === 0) return 0;
     const sum = mean_uv.reduce((total, uv) => total + uv, 0);
-    return sum / mean_uv.length;
+    return Math.ceil(sum / mean_uv.length);
   };
 
   const getUVForSelectedDay = () => {
     if (selectedDay) {
       const dayIndex = weeklyHours.findIndex(item => item.day === selectedDay);
-      return mean_uv[dayIndex] || 0;
+      return Math.floor(mean_uv[dayIndex]) || 0;
     }
     return calculateAverageUV(); 
   };
