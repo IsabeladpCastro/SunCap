@@ -13,11 +13,11 @@ import BottomNavBar from "@/components/BottomBar";
 import dbService from "@/services/dbService";
 import { useAuth } from '@/contexts/authContext';
 
-export default function SignIn() {
+export default function App() {
   const [exposicoes, setExposicoes] = useState<number[]>([]); 
   const [totalExposicao, setTotalExposicao] = useState<number>(0);
   const [mean_uv, setMeanUV] = useState<number[]>([]);  
-  const [selectedDay, setSelectedDay] = useState<string>("Seg");
+  const [selectedDay, setSelectedDay] = useState<string>();
   const { user } = useAuth();
 
   useEffect(() => {
