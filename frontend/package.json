@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --tunel",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -59,10 +59,12 @@
     "react-native-webview": "13.12.5",
     "sql.js": "^1.12.0",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "@expo/metro-config": "~0.19.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@react-native/metro-config": "^0.77.0",
     "@react-navigation/native": "latest",
     "@react-navigation/stack": "latest",
     "@types/jest": "^29.5.12",
@@ -75,6 +77,7 @@
     "@types/sql.js": "^1.4.9",
     "jest": "^29.2.1",
     "jest-expo": "~52.0.3",
+    "metro-config": "^0.81.1",
     "react-test-renderer": "18.3.1",
     "typescript": "^5.3.3"
   },

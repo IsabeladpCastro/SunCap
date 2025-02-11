@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://192.168.0.2:3000'
+const API_URL = 'http://186.219.87.52:3000'
 
 export interface Usuario {
   id: number;

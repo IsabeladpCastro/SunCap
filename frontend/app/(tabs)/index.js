@@ -12,15 +12,15 @@ import SelfCareRecommendations from "@/components/SelfCareRecommendations";
 import BottomNavBar from "@/components/BottomBar";
 import dbService from "@/services/dbService";
 import { useAuth } from '@/contexts/authContext';
-import useBLE from "@/hooks/useBLE";
+//import useBLE from "@/hooks/useBLE";
 
 export default function App() {
-  const [exposicoes, setExposicoes] = useState<number[]>([]); 
+  const [exposicoes, setExposicoes] = useState<number>([]); 
   const [totalExposicao, setTotalExposicao] = useState<number>(0);
-  const [mean_uv, setMeanUV] = useState<number[]>([]);  
-  const [selectedDay, setSelectedDay] = useState<string>();
+  const [mean_uv, setMeanUV] = useState<number>([]);  
+  const [selectedDay, setSelectedDay] = useState<string>('');
   const { user } = useAuth();
-  const { uvIndex } = useBLE();
+  //const { uvIndex } = useBLE();
 
   useEffect(() => {
     const fetchExposicoes = async () => {
@@ -104,7 +104,7 @@ export default function App() {
             <View>
               <Text style={styles.uvNow}>{selectedDay !== "Seg" ? selectedDay : "Agora"}</Text>
               <Text style={styles.uvStatus}>
-              { uvIndex }{getUVForSelectedDay() > 8 ? "Muito alto" : "Moderado"} 
+              {getUVForSelectedDay() > 8 ? "Muito alto" : "Moderado"} 
               </Text>
             </View>
           </View>
