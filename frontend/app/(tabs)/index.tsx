@@ -12,6 +12,7 @@ import SelfCareRecommendations from "@/components/SelfCareRecommendations";
 import BottomNavBar from "@/components/BottomBar";
 import dbService from "@/services/dbService";
 import { useAuth } from '@/contexts/authContext';
+import useBLE from "@/hooks/useBLE";
 
 export default function App() {
   const [exposicoes, setExposicoes] = useState<number[]>([]); 
@@ -19,6 +20,7 @@ export default function App() {
   const [mean_uv, setMeanUV] = useState<number[]>([]);  
   const [selectedDay, setSelectedDay] = useState<string>();
   const { user } = useAuth();
+  const { uvIndex } = useBLE();
 
   useEffect(() => {
     const fetchExposicoes = async () => {
@@ -53,13 +55,13 @@ export default function App() {
   const calculateAverageUV = () => {
     if (mean_uv.length === 0) return 0;
     const sum = mean_uv.reduce((total, uv) => total + uv, 0);
-    return Math.ceil(sum / mean_uv.length);
+    return sum / mean_uv.length;
   };
 
   const getUVForSelectedDay = () => {
     if (selectedDay) {
       const dayIndex = weeklyHours.findIndex(item => item.day === selectedDay);
-      return Math.floor(mean_uv[dayIndex]) || 0;
+      return mean_uv[dayIndex] || 0;
     }
     return calculateAverageUV(); 
   };
@@ -102,7 +104,7 @@ export default function App() {
             <View>
               <Text style={styles.uvNow}>{selectedDay !== "Seg" ? selectedDay : "Agora"}</Text>
               <Text style={styles.uvStatus}>
-                {getUVForSelectedDay() > 8 ? "Muito alto" : "Moderado"} 
+              { uvIndex }{getUVForSelectedDay() > 8 ? "Muito alto" : "Moderado"} 
               </Text>
             </View>
           </View>
@@ -291,6 +293,6 @@ const styles = StyleSheet.create({
     fontFamily: fontFamilyDefault,
     fontSize: 10,
     color: "#333",
-    marginTop: 5,
-  },
+    marginTop: 5,
+  },
 });
