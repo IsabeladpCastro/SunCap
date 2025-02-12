@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SunCap",
-    "slug": "SunCap",
+    "slug": "suncap",
     "platforms": [
       "ios",
       "android",
@@ -53,8 +53,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "22a9f8c1-a77d-4fc1-8e20-62fdccc23a68"
+        "projectId": "0a527448-8d11-42da-888b-96263987b8b4"
       }
-    }
+    },
+    "owner": "guiguitosi"
   }
 }
