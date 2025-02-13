@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://192.168.0.9:3000'
+const API_URL = 'https://4e83-2801-b0-20-59-fdbc-18c8-2d8e-d1ed.ngrok-free.app/'
 
 export interface Usuario {
   id: number;

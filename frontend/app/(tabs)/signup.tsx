@@ -9,12 +9,18 @@ import {
   Dimensions,
 } from "react-native";
 import CheckBox from "expo-checkbox";
-import dbService from "../../services/dbService";
 import { useNavigation } from "expo-router";
 import { fontFamilyDefault } from "@/assets/fonts/default_font";
 
 const { width: screenWidth } = Dimensions.get("window");
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+// Dicionário com dados padrões de e-mail e senha
+const userCredentials = {
+  email: "admin@email.com",
+  senha: "123456",
+  nome: "admin",
+};
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -65,34 +71,18 @@ export default function SignUp() {
       return;
     }
   
-    try {
-      const usuarios = await dbService.getUsuarios();
-      
-      const emailExists = usuarios.some(user => user.email === email);
-      
-      if (emailExists) {
-        setMessage("Este e-mail já está registrado.");
-        setMessageColor("red");
-        return;
-      }
-  
-      const _ = await dbService.createUsuario(name, email, password);
-      
-      const id = await dbService.getIdFromEmail(email);
-  
-      setMessage(`Usuário ${name} cadastrado com sucesso!`);
+    // Verificar se o email e senha inseridos correspondem aos valores padrões
+    if (email === userCredentials.email && password === userCredentials.senha) {
+      setMessage(`Bem-vindo, ${name}!`);
       setMessageColor("green");
-  
-      dbService.updateFirstLogin(id);
-  
       navigator.navigate("Splash" as never);
 
       setName("");
       setEmail("");
       setPassword("");
       setIsChecked(false);
-    } catch (error) {
-      setMessage("Não foi possível realizar o cadastro. Tente novamente.");
+    } else {
+      setMessage("Email ou senha inválidos.");
       setMessageColor("red");
     }
   };  
