@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react"; 
 import {
   View,
   Text,
@@ -28,11 +28,11 @@ export default function App() {
   const [mean_uv, setMeanUV] = useState<number[]>([
     6,  // Seg (UV Médio)
     8,  // Ter (UV Médio)
-    7,  // Qua (UV Médio)
+    2,  // Qua (UV Médio)
     5,  // Qui (UV Médio)
     9,  // Sex (UV Médio)
     7,  // Sáb (UV Médio)
-    6   // Dom (UV Médio)
+    11   // Dom (UV Médio)
   ]);
   const [selectedDay, setSelectedDay] = useState<string>();
   const { user } = useAuth();
@@ -58,7 +58,6 @@ export default function App() {
     const sum = mean_uv.reduce((total, uv) => total + uv, 0);
     return Math.round(sum / mean_uv.length); 
   };
-  
 
   const getUVForSelectedDay = () => {
     if (selectedDay) {
@@ -73,8 +72,8 @@ export default function App() {
       <ScrollView style={styles.container}>
         <Text style={styles.header}>SUNCAP</Text>
 
-        <ScrollView
-          horizontal
+        <ScrollView 
+          horizontal 
           showsHorizontalScrollIndicator={false}
         >
           {weeklyHours.map((date, index) => (
@@ -104,34 +103,42 @@ export default function App() {
             <Icon name="sunny" size={40} color="#FFD700" />
             <Text style={styles.uvIndex}>{getUVForSelectedDay()}</Text> 
             <View>
-              <Text style={styles.uvNow}>{selectedDay !== "Seg" ? selectedDay : "Agora"}</Text>
+              <Text style={styles.uvNow}>{selectedDay || "Agora"}</Text>
               <Text style={styles.uvStatus}>
-              {getUVForSelectedDay() > 8 ? "Muito alto" : "Moderado"} 
+                {getUVForSelectedDay() < 3 ? "Baixo Risco" :
+                getUVForSelectedDay() < 6 ? "Risco Moderado" :
+                getUVForSelectedDay() < 8 ? "Risco Alto" :
+                getUVForSelectedDay() < 11 ? "Risco Muito Alto" :
+                "Risco Extremo"}
               </Text>
             </View>
           </View>
           <SelfCareRecommendations uv_incidence={getUVForSelectedDay()} />
         </View>
 
+
+        
         <View style={styles.weeklyData}>
           <View style={styles.weeklyHeader}>
             <Text style={styles.weeklyTitle}>Exposição semanal:</Text>
             <Text style={styles.totalHours}>{(totalExposicao / 3600).toFixed(1)} Horas</Text>
           </View>
           <View style={styles.chart}>
-          {weeklyHours.map((item, index) => (
-            <View key={index} style={styles.barContainer}>
-              <View style={styles.barBackground}>
-                <View
-                  style={[styles.barFilled, { height: (item.hours / 12) * 100 }]}
-                />
+            {weeklyHours.map((item, index) => (
+              <View key={index} style={styles.barContainer}>
+                <View style={styles.barBackground}>
+                  <View
+                    style={[styles.barFilled, { height: (item.hours / 12) * 100 }]}
+                  />
+                </View>
+                <Text style={styles.barHours}>{item.hours.toFixed(1)}h</Text>
               </View>
-              <Text style={styles.barHours}>{item.hours.toFixed(1)}h</Text>
-            </View>
-          ))}
-</View>
-
+            ))}
+          </View>
+        
         </View>
+
+
       </ScrollView>
 
       <BottomNavBar />
@@ -291,3 +298,4 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
+
