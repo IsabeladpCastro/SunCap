@@ -72,7 +72,8 @@ function useBLE(): BluetoothLowEnergyApi {
         console.error("Scan Error:", error);
         return;
       }
-      if (device && device.name?.includes("ESP32_UV_Sensor")) {
+      console.log(device);
+      if (device) {
         setAllDevices((prevDevices) => {
           if (!isDuplicateDevice(prevDevices, device)) {
             return [...prevDevices, device];

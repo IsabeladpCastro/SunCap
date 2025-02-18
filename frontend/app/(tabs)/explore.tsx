@@ -1,27 +1,33 @@
-import { StyleSheet, Image, Platform } from 'react-native';
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { fontFamilyDefault } from '@/assets/fonts/default_font';
 import { useNavigation } from 'expo-router';
+import { fontFamilyDefault } from '@/assets/fonts/default_font';
 
 export default function BluetoothScreen() {
   const navigation = useNavigation();
+  const [connected, setConnected] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const handleConnect = () => {
+    setConnected(true);
+    setShowMessage(true);
+    Alert.alert("Sucesso", "Boné conectado com sucesso!");
+
+    // Oculta a mensagem após 3 segundos
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 3000);
+  };
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity>
-          <Icon name="arrow-back" size={24} color="#000" onPress={() => navigation.navigate('Index' as never)}/>
+        <TouchableOpacity onPress={() => navigation.navigate('Index' as never)}>
+          <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Conexão_Bluetooth</Text>
+        <Text style={styles.headerTitle}>Conexão Bluetooth</Text>
       </View>
 
       {/* Bluetooth Icon */}
@@ -32,9 +38,14 @@ export default function BluetoothScreen() {
         <Text style={styles.bluetoothText}>Conectar com o Boné</Text>
       </View>
 
-      {/* Button */}
-      <TouchableOpacity style={styles.connectButton}>
-        <Text style={styles.connectButtonText}>Conectar</Text>
+      {/* Mensagem de sucesso */}
+      {showMessage && <Text style={styles.successMessage}>Bluetooth conectado com sucesso!</Text>}
+
+      {/* Botão */}
+      <TouchableOpacity style={[styles.connectButton, connected && styles.connectedButton]} onPress={handleConnect}>
+        <Text style={styles.connectButtonText}>
+          {connected ? "Conectado" : "Conectar"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -78,6 +89,14 @@ const styles = StyleSheet.create({
     color: '#000',
     fontFamily: fontFamilyDefault,
   },
+  successMessage: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'green',
+    textAlign: 'center',
+    marginBottom: 10,
+    fontFamily: fontFamilyDefault,
+  },
   connectButton: {
     backgroundColor: '#000080',
     paddingVertical: 15,
@@ -85,28 +104,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
   },
+  connectedButton: {
+    backgroundColor: '#008000', // Verde quando conectado
+  },
   connectButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
-    fontFamily: fontFamilyDefault,
-  },
-  navBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    paddingTop: 10,
-  },
-  navItem: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navText: {
-    fontSize: 12,
-    color: '#777',
-    marginTop: 5,
     fontFamily: fontFamilyDefault,
   },
 });
